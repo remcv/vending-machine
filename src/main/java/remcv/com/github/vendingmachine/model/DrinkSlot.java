@@ -1,0 +1,75 @@
+package remcv.com.github.vendingmachine.model;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class DrinkSlot implements Slot<Drink, Integer> {
+    // fields
+    private final short maxItems;
+    private int price;
+    private final Queue<Drink> drinks;
+
+    // constructor
+    public DrinkSlot(short maxItems, int price) {
+        this.maxItems = maxItems;
+        drinks = new ArrayDeque<>(maxItems);
+        setPrice(price);
+    }
+
+    // methods
+    @Override
+    public Integer getPrice() {
+        return price;
+    }
+
+    @Override
+    public void setPrice(Integer price) throws IllegalArgumentException {
+        if (price <= 0) {
+            throw new IllegalArgumentException("Negative prices or free items are not allowed");
+        } else {
+            this.price = price;
+        }
+    }
+
+    @Override
+    public Drink getItem() throws Exception {
+        try {
+            return drinks.remove();
+        } catch (NoSuchElementException e) {
+            throw new Exception("Slot is empty", e);
+        }
+    }
+
+    @Override
+    public short getNumberOfItems() {
+        return (short) drinks.size();
+    }
+
+    @Override
+    public short getMaxItems() {
+        return maxItems;
+    }
+
+    @Override
+    public Collection<Drink> emptySlot() {
+        Collection<Drink> drinksCopy = new ArrayList<>(drinks);
+        drinks.clear();
+        return drinksCopy;
+    }
+
+    @Override
+    public void fillSlot(Drink item) {
+        drinks.addAll(getItemsToFill(item));
+    }
+
+    private Collection<Drink> getItemsToFill(Drink drink) {
+        int itemsToFill = getMaxItems() - getNumberOfItems();
+        Collection<Drink> drinks = new ArrayList<>();
+
+        for(int i = 0; i < itemsToFill; ++i) {
+            drinks.add(drink.duplicate(drink));
+        }
+
+        return drinks;
+    }
+}
