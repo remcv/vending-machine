@@ -49,6 +49,11 @@ public class CoinRepository implements MoneyRepository<Coin> {
     }
 
     @Override
+    public Collection<Coin> getMoneySlot(Coin coin) {
+        return coinStorage.get(coin);
+    }
+
+    @Override
     public Coin withdrawOne(Coin coin) throws Exception {
         try {
             return coinStorage.get(coin).remove();
