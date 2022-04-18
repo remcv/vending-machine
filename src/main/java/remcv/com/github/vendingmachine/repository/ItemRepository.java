@@ -8,4 +8,5 @@ public interface ItemRepository<T> {
     Collection<T> removeAll();
     void fill(List<T> slotItems) throws Exception;  // TODO custom exception
     short getNumberOfSlots();
+    int getSlotPrice(short slotNumber);
 }
