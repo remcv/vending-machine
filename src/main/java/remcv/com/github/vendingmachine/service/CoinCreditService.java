@@ -3,7 +3,7 @@ package remcv.com.github.vendingmachine.service;
 import remcv.com.github.vendingmachine.model.Coin;
 import remcv.com.github.vendingmachine.repository.MoneyRepository;
 
-public class CoinCreditService implements CreditService<Coin> {
+public class CoinCreditService implements CreditService<Coin, Integer> {
     // fields
     private int credit;
     private final MoneyRepository<Coin> coinRepository;
@@ -33,5 +33,15 @@ public class CoinCreditService implements CreditService<Coin> {
     @Override
     public void resetCredit() {
         credit = 0;
+    }
+
+    @Override
+    public Integer getCredit() {
+        return credit;
+    }
+
+    @Override
+    public void setCredit(Integer credit) {
+        this.credit = credit;
     }
 }
