@@ -19,5 +19,5 @@ public interface VendingMachine<T, U> {
     void fillMoneyStorage(double proportion);
     Collection<T> withdrawAllMoney();
     void fillItemStorage();
-    Collection<U> emptyDrinksStorage();
+    Collection<U> emptyItemStorage();
 }
