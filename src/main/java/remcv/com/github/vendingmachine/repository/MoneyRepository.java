@@ -1,9 +1,12 @@
 package remcv.com.github.vendingmachine.repository;
 
+import remcv.com.github.vendingmachine.exception.ChangeException;
+import remcv.com.github.vendingmachine.exception.money.FullMoneyStorageException;
+
 import java.util.Collection;
 
 public interface MoneyRepository<T> {
-    boolean deposit(T money) throws Exception; // TODO `already full` exception
+    boolean deposit(T money) throws FullMoneyStorageException;
     void fillStorage(double proportion);
 
     /**
@@ -15,7 +18,7 @@ public interface MoneyRepository<T> {
      */
     Collection<T> getMoneySlot(T money);
 
-    T withdrawOne(T money) throws Exception; // TODO `no coins in stock` exception
+    T withdrawOne(T money) throws ChangeException;
     Collection<T> withdrawAll();
 
     /**

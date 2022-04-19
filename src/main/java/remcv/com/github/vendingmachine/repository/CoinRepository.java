@@ -1,5 +1,8 @@
 package remcv.com.github.vendingmachine.repository;
 
+import remcv.com.github.vendingmachine.exception.ChangeException;
+import remcv.com.github.vendingmachine.exception.ExceptionMessages;
+import remcv.com.github.vendingmachine.exception.money.FullMoneyStorageException;
 import remcv.com.github.vendingmachine.model.Coin;
 
 import java.util.*;
@@ -9,6 +12,7 @@ import java.util.stream.Stream;
 public class CoinRepository implements MoneyRepository<Coin> {
     // fields
     private static final double INITIAL_FILL_PROPORTION = 0.6;
+    private static final int MONEY_STORAGE_CAPACITY = 150;
     private final Map<Coin, Queue<Coin>> coinStorage;
 
     // constructor
@@ -24,10 +28,10 @@ public class CoinRepository implements MoneyRepository<Coin> {
 
     // methods
     @Override
-    public boolean deposit(Coin coin) throws Exception {
+    public boolean deposit(Coin coin) throws FullMoneyStorageException {
         // check for storage availability
         if (coinStorage.get(coin).size() >= getMoneyStorageCapacity()) {
-            throw new Exception("No coin storage available for " + coin.name());
+            throw new FullMoneyStorageException(ExceptionMessages.FULL_MONEY_STORAGE.getMessage());
         // deposit coin
         } else {
             return coinStorage.get(coin).add(coin);
@@ -36,6 +40,11 @@ public class CoinRepository implements MoneyRepository<Coin> {
 
     @Override
     public void fillStorage(double proportion) {
+        // check proportion for 0 - 1 limits
+        if (proportion < 0 || proportion > 1) {
+            throw new IllegalArgumentException(ExceptionMessages.INVALID_PROPORTION.getMessage());
+        }
+
         // first empty storage
         coinStorage.forEach((k, v) -> v.clear());
 
@@ -54,11 +63,11 @@ public class CoinRepository implements MoneyRepository<Coin> {
     }
 
     @Override
-    public Coin withdrawOne(Coin coin) throws Exception {
+    public Coin withdrawOne(Coin coin) throws ChangeException {
         try {
             return coinStorage.get(coin).remove();
         } catch (NoSuchElementException e) {
-            throw new Exception(e);  // TODO custom exception + message (or from custom exception)
+            throw new ChangeException(ExceptionMessages.OUT_OF_CHANGE.getMessage(), e);
         }
     }
 
@@ -77,7 +86,7 @@ public class CoinRepository implements MoneyRepository<Coin> {
 
     @Override
     public int getMoneyStorageCapacity() {
-        return 150;
+        return MONEY_STORAGE_CAPACITY;
     }
 
     private Collection<Coin> generateCoins(Coin coinType, long limit) {

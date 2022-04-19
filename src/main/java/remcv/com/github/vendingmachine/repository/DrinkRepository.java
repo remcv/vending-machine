@@ -1,5 +1,9 @@
 package remcv.com.github.vendingmachine.repository;
 
+import remcv.com.github.vendingmachine.exception.ExceptionMessages;
+import remcv.com.github.vendingmachine.exception.FillItemsMismatchException;
+import remcv.com.github.vendingmachine.exception.buy.BuyException;
+import remcv.com.github.vendingmachine.exception.buy.InvalidSlotException;
 import remcv.com.github.vendingmachine.model.Drink;
 import remcv.com.github.vendingmachine.model.DrinkSlot;
 import remcv.com.github.vendingmachine.model.Slot;
@@ -22,7 +26,10 @@ public class DrinkRepository implements ItemRepository<Drink> {
 
     // methods
     @Override
-    public Drink removeOne(short slotNumber) throws Exception {
+    public Drink removeOne(short slotNumber) throws BuyException {
+        if (slotNumber > getNumberOfSlots()) {
+            throw new InvalidSlotException(ExceptionMessages.INVALID_SLOT.getMessage());
+        }
         return drinkStorage.get((int) slotNumber).getItem();
     }
 
@@ -38,9 +45,9 @@ public class DrinkRepository implements ItemRepository<Drink> {
     }
 
     @Override
-    public void fill(List<Drink> slotItems) throws Exception {
+    public void fill(List<Drink> slotItems) throws FillItemsMismatchException {
         if (slotItems.size() != drinkStorage.size()) {
-            throw new Exception("Slot fill error");
+            throw new FillItemsMismatchException(ExceptionMessages.INCORRECT_ITEM_FILL.getMessage());
         } else {
             drinkStorage.forEach((n, slot) -> slot.fillSlot(slotItems.get(n-1)));
         }
@@ -52,7 +59,10 @@ public class DrinkRepository implements ItemRepository<Drink> {
     }
 
     @Override
-    public int getSlotPrice(short slotNumber) {
+    public int getSlotPrice(short slotNumber) throws InvalidSlotException {
+        if (slotNumber > getNumberOfSlots()) {
+            throw new InvalidSlotException(ExceptionMessages.INVALID_SLOT.getMessage());
+        }
         return drinkStorage.get((int) slotNumber).getPrice();
     }
 

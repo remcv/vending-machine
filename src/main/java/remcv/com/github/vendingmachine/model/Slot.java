@@ -1,5 +1,7 @@
 package remcv.com.github.vendingmachine.model;
 
+import remcv.com.github.vendingmachine.exception.buy.OutOfItemsException;
+
 import java.util.Collection;
 
 public interface Slot<T, U> {
@@ -10,9 +12,9 @@ public interface Slot<T, U> {
      * Removes an item from the current slot.
      *
      * @return an item from the slot.
-     * @throws Exception when the slot is empty. TODO
+     * @throws OutOfItemsException when the slot is empty.
      */
-    T getItem() throws Exception;
+    T getItem() throws OutOfItemsException;
 
     /**
      * Shows how many items are currently in the slot.
@@ -26,7 +28,7 @@ public interface Slot<T, U> {
      *
      * @return the maximum number of items per slot, as a {@code short}.
      */
-    short getMaxItems(); // TODO check alternatives VendingMachine
+    short getMaxItems();
 
     Collection<T> emptySlot();
     void fillSlot(T item);

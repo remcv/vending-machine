@@ -4,14 +4,16 @@ public enum ExceptionMessages {
     FULL_MONEY_STORAGE("Money storage is full"),
     OUT_OF_ITEMS("Out of item"),
     INSUFFICIENT_CREDIT("Insufficient credit to buy the item"),
+    INVALID_SLOT("Invalid slot number"),
     OUT_OF_CHANGE("No change left in storage"),
-    INCORRECT_ITEM_FILL("Incorrect instructions for filling the vending machine with items");
+    INCORRECT_ITEM_FILL("Incorrect instructions for filling the vending machine with items"),
+    INVALID_PROPORTION("Invalid proportion value");
 
     // fields
     private final String message;
 
     // constructor
-    private ExceptionMessages(String message) {
+    ExceptionMessages(String message) {
         this.message = message;
     }
 

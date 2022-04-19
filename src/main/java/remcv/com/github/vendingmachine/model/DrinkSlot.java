@@ -1,7 +1,9 @@
 package remcv.com.github.vendingmachine.model;
 
+import remcv.com.github.vendingmachine.exception.ExceptionMessages;
+import remcv.com.github.vendingmachine.exception.buy.OutOfItemsException;
+
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DrinkSlot implements Slot<Drink, Integer> {
     // fields
@@ -32,11 +34,11 @@ public class DrinkSlot implements Slot<Drink, Integer> {
     }
 
     @Override
-    public Drink getItem() throws Exception {
+    public Drink getItem() throws OutOfItemsException {
         try {
             return drinks.remove();
         } catch (NoSuchElementException e) {
-            throw new Exception("Slot is empty", e);
+            throw new OutOfItemsException(ExceptionMessages.OUT_OF_ITEMS.getMessage(), e);
         }
     }
 

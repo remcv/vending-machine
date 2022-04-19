@@ -1,5 +1,8 @@
 package remcv.com.github.vendingmachine.service;
 
+import remcv.com.github.vendingmachine.exception.ChangeException;
+import remcv.com.github.vendingmachine.exception.ExceptionMessages;
+import remcv.com.github.vendingmachine.exception.buy.InsufficientCreditException;
 import remcv.com.github.vendingmachine.model.Coin;
 import remcv.com.github.vendingmachine.repository.MoneyRepository;
 
@@ -20,7 +23,7 @@ public class CoinChange implements MoneyChange<Coin> {
 
     // methods
     @Override
-    public Collection<Coin> getChange() throws Exception {
+    public Collection<Coin> getChange() throws ChangeException {
         // get remaining credit
         int credit = coinCreditService.getCredit();
 
@@ -34,10 +37,13 @@ public class CoinChange implements MoneyChange<Coin> {
                     credit -= c.getValue();
                 } catch (Exception e) {
                     if (c.equals(Coin.TEN_CENTS))
-                    throw new Exception("Not enough money left for change");  // TODO custom exception
+                    throw new ChangeException(ExceptionMessages.OUT_OF_CHANGE.getMessage());
                 }
             }
         }
+
+        // reset the credit of the vending machine
+        coinCreditService.resetCredit();
 
         return coinsForChange;
     }

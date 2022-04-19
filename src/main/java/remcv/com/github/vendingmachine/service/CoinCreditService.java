@@ -1,5 +1,7 @@
 package remcv.com.github.vendingmachine.service;
 
+import remcv.com.github.vendingmachine.exception.ExceptionMessages;
+import remcv.com.github.vendingmachine.exception.money.FullMoneyStorageException;
 import remcv.com.github.vendingmachine.model.Coin;
 import remcv.com.github.vendingmachine.repository.MoneyRepository;
 
@@ -20,13 +22,13 @@ public class CoinCreditService implements CreditService<Coin, Integer> {
     }
 
     @Override
-    public void add(Coin money) throws Exception {
+    public void add(Coin money) throws FullMoneyStorageException {
         if (checkMoneyStorageCapacity(money)) {
             // increase credit and deposit money
             credit += money.getValue();
             coinRepository.deposit(money);
         } else {
-            throw new Exception("Money storage is full for " + money.name());  // TODO replace with custom exception
+            throw new FullMoneyStorageException(ExceptionMessages.FULL_MONEY_STORAGE.getMessage());
         }
     }
 
