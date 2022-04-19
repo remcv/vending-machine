@@ -15,7 +15,8 @@ class DrinkSlotTest {
         drinkSlot.setPrice(100);
 
         // then the price field should equal the set value
-        assertEquals(100, drinkSlot.getPrice());
+        int expected = 100;
+        assertEquals(expected, drinkSlot.getPrice());
     }
 
     @Test
@@ -33,7 +34,7 @@ class DrinkSlotTest {
         // given I have a DrinkSlot instance
         var drinkSlot = new DrinkSlot((short) 8, 50);
 
-        // when I set the price to zero
+        // when I set the price to a negative value
         // then an illegal argument exception should be thrown
         assertThrowsExactly(IllegalArgumentException.class, () -> drinkSlot.setPrice(-5));
     }
