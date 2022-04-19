@@ -11,19 +11,22 @@ import java.util.stream.Stream;
 
 public class CoinRepository implements MoneyRepository<Coin> {
     // fields
-    private static final double INITIAL_FILL_PROPORTION = 0.6;
-    private static final int MONEY_STORAGE_CAPACITY = 150;
+    private final double initialFillProportion;
+    private final int moneyStorageCapacity;
     private final Map<Coin, Queue<Coin>> coinStorage;
 
     // constructor
-    public CoinRepository() {
+    public CoinRepository(double initialFillProportion, int moneyStorageCapacity) {
+        this.initialFillProportion = initialFillProportion;
+        this.moneyStorageCapacity = moneyStorageCapacity;
+
         coinStorage = new HashMap<>();
 
         for (Coin coin : Coin.values()) {
             coinStorage.put(coin, new ArrayDeque<>(getMoneyStorageCapacity()));
         }
 
-        fillStorage(INITIAL_FILL_PROPORTION);
+        fillStorage(initialFillProportion);
     }
 
     // methods
@@ -49,7 +52,7 @@ public class CoinRepository implements MoneyRepository<Coin> {
         coinStorage.forEach((k, v) -> v.clear());
 
         // determine the number of coins for each slot, respecting the desired fill proportion
-        long numberOfCoins = Math.round(INITIAL_FILL_PROPORTION * getMoneyStorageCapacity());
+        long numberOfCoins = Math.round(initialFillProportion * getMoneyStorageCapacity());
 
         // fill each coin slot to established proportion
         for (Coin coin : Coin.values()) {
@@ -86,7 +89,7 @@ public class CoinRepository implements MoneyRepository<Coin> {
 
     @Override
     public int getMoneyStorageCapacity() {
-        return MONEY_STORAGE_CAPACITY;
+        return moneyStorageCapacity;
     }
 
     private Collection<Coin> generateCoins(Coin coinType, long limit) {
