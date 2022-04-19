@@ -5,6 +5,8 @@ import remcv.com.github.vendingmachine.exception.money.FullMoneyStorageException
 import remcv.com.github.vendingmachine.model.Coin;
 import remcv.com.github.vendingmachine.repository.MoneyRepository;
 
+import java.util.Collection;
+
 public class CoinCreditService implements CreditService<Coin, Integer> {
     // fields
     private int credit;
@@ -30,6 +32,16 @@ public class CoinCreditService implements CreditService<Coin, Integer> {
         } else {
             throw new FullMoneyStorageException(ExceptionMessages.FULL_MONEY_STORAGE.getMessage());
         }
+    }
+
+    @Override
+    public void fillMoneyStorage(double proportion) {
+        coinRepository.fillStorage(proportion);
+    }
+
+    @Override
+    public Collection<Coin> withdrawAll() {
+        return coinRepository.withdrawAll();
     }
 
     @Override

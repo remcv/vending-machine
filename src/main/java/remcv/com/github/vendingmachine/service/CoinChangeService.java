@@ -2,7 +2,6 @@ package remcv.com.github.vendingmachine.service;
 
 import remcv.com.github.vendingmachine.exception.ChangeException;
 import remcv.com.github.vendingmachine.exception.ExceptionMessages;
-import remcv.com.github.vendingmachine.exception.buy.InsufficientCreditException;
 import remcv.com.github.vendingmachine.model.Coin;
 import remcv.com.github.vendingmachine.repository.MoneyRepository;
 
@@ -10,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CoinChange implements MoneyChange<Coin> {
+public class CoinChangeService implements MoneyChangeService<Coin> {
     // fields
     private final CreditService<Coin, Integer> coinCreditService;
     private final MoneyRepository<Coin> coinRepository;
 
     // constructor
-    public CoinChange(CreditService<Coin, Integer> coinCreditService, MoneyRepository<Coin> coinRepository) {
+    public CoinChangeService(CreditService<Coin, Integer> coinCreditService, MoneyRepository<Coin> coinRepository) {
         this.coinCreditService = coinCreditService;
         this.coinRepository = coinRepository;
     }

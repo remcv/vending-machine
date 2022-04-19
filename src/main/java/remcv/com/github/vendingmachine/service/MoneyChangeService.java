@@ -4,7 +4,7 @@ import remcv.com.github.vendingmachine.exception.ChangeException;
 
 import java.util.Collection;
 
-public interface MoneyChange<T> {
+public interface MoneyChangeService<T> {
 
     /**
      * Offer the client the change in money {@code T} and remove them from the vending machine's storage.
