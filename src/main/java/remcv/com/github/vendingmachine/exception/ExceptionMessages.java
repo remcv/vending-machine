@@ -7,7 +7,8 @@ public enum ExceptionMessages {
     INVALID_SLOT("Invalid slot number"),
     OUT_OF_CHANGE("No change left in storage"),
     INCORRECT_ITEM_FILL("Incorrect instructions for filling the vending machine with items"),
-    INVALID_PROPORTION("Invalid proportion value");
+    INVALID_PROPORTION("Invalid proportion value"),
+    NEGATIVE_PRICES("Negative prices or free items are not allowed");
 
     // fields
     private final String message;

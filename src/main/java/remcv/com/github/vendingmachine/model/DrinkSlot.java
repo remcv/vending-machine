@@ -27,7 +27,7 @@ public class DrinkSlot implements Slot<Drink, Integer> {
     @Override
     public void setPrice(Integer price) throws IllegalArgumentException {
         if (price <= 0) {
-            throw new IllegalArgumentException("Negative prices or free items are not allowed");
+            throw new IllegalArgumentException(ExceptionMessages.NEGATIVE_PRICES.getMessage());
         } else {
             this.price = price;
         }
