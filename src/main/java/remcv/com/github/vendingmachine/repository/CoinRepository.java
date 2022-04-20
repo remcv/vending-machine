@@ -82,7 +82,7 @@ public class CoinRepository implements MoneyRepository<Coin> {
 
     @Override
     public int computeFreeStorage(Coin money) {
-        return coinStorage.get(money).size();
+        return getMoneyStorageCapacity() - coinStorage.get(money).size();
     }
 
     @Override
