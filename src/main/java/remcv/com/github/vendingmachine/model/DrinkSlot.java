@@ -69,7 +69,7 @@ public class DrinkSlot implements Slot<Drink, Integer> {
         Collection<Drink> drinks = new ArrayList<>();
 
         for(int i = 0; i < itemsToFill; ++i) {
-            drinks.add(drink.duplicate(drink));
+            drinks.add(drink.duplicate());
         }
 
         return drinks;
