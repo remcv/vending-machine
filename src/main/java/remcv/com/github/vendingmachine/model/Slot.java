@@ -37,6 +37,17 @@ public interface Slot<T, U> {
      */
     short getMaxItems();
 
+    /**
+     * Empty the slot of contained items.
+     *
+     * @return a collection of items contained in the slot
+     */
     Collection<T> emptySlot();
+
+    /**
+     * Fill the slot with identical items.
+     *
+     * @param item the item to fill the slot with
+     */
     void fillSlot(T item);
 }
