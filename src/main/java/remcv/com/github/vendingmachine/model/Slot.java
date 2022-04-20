@@ -4,6 +4,13 @@ import remcv.com.github.vendingmachine.exception.buy.OutOfItemsException;
 
 import java.util.Collection;
 
+/**
+ * Interface that models the behaviour of a slot of items {@code T} that have
+ * a price {@code U}.
+ *
+ * @param <T> the item stored in the slot
+ * @param <U> the data type for the item's price
+ */
 public interface Slot<T, U> {
     U getPrice();
     void setPrice(U price);

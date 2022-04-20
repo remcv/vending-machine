@@ -4,6 +4,8 @@ import remcv.com.github.vendingmachine.exception.ExceptionMessages;
 import remcv.com.github.vendingmachine.exception.buy.OutOfItemsException;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DrinkSlot implements Slot<Drink, Integer> {
     // fields
@@ -66,12 +68,8 @@ public class DrinkSlot implements Slot<Drink, Integer> {
 
     private Collection<Drink> getItemsToFill(Drink drink) {
         int itemsToFill = getMaxItems() - getNumberOfItems();
-        Collection<Drink> drinks = new ArrayList<>();
-
-        for(int i = 0; i < itemsToFill; ++i) {
-            drinks.add(drink.duplicate());
-        }
-
-        return drinks;
+        return Stream.generate(() -> new DrinkImpl(drink.getName(), drink.getVolume()))
+                .limit(itemsToFill)
+                .collect(Collectors.toList());
     }
 }

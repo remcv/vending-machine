@@ -8,11 +8,4 @@ public interface Drink {
     void setName(String name);
     int getVolume();
     void setVolume(int volume);
-
-    /**
-     * Create a copy of the current drink.
-     *
-     * @return a copy of the current instance
-     */
-    Drink duplicate();
 }

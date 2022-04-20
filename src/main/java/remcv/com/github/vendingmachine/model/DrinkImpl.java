@@ -35,15 +35,6 @@ public class DrinkImpl implements Drink {
     }
 
     @Override
-    public Drink duplicate() {
-        try {
-            return (Drink) this.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Clone not supported");
-        }
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
