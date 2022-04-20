@@ -11,13 +11,11 @@ import java.util.stream.Stream;
 
 public class CoinRepository implements MoneyRepository<Coin> {
     // fields
-    private final double initialFillProportion;
     private final int moneyStorageCapacity;
     private final Map<Coin, Queue<Coin>> coinStorage;
 
     // constructor
     public CoinRepository(double initialFillProportion, int moneyStorageCapacity) {
-        this.initialFillProportion = initialFillProportion;
         this.moneyStorageCapacity = moneyStorageCapacity;
 
         coinStorage = new HashMap<>();
@@ -31,13 +29,13 @@ public class CoinRepository implements MoneyRepository<Coin> {
 
     // methods
     @Override
-    public boolean deposit(Coin coin) throws FullMoneyStorageException {
+    public void deposit(Coin coin) throws FullMoneyStorageException {
         // check for storage availability
         if (coinStorage.get(coin).size() >= getMoneyStorageCapacity()) {
             throw new FullMoneyStorageException(ExceptionMessages.FULL_MONEY_STORAGE.getMessage());
         // deposit coin
         } else {
-            return coinStorage.get(coin).add(coin);
+            coinStorage.get(coin).add(coin);
         }
     }
 
@@ -52,7 +50,7 @@ public class CoinRepository implements MoneyRepository<Coin> {
         coinStorage.forEach((k, v) -> v.clear());
 
         // determine the number of coins for each slot, respecting the desired fill proportion
-        long numberOfCoins = Math.round(initialFillProportion * getMoneyStorageCapacity());
+        long numberOfCoins = Math.round(proportion * getMoneyStorageCapacity());
 
         // fill each coin slot to established proportion
         for (Coin coin : Coin.values()) {
