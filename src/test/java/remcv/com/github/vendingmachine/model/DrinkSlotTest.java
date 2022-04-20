@@ -1,41 +1,102 @@
 package remcv.com.github.vendingmachine.model;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import remcv.com.github.vendingmachine.exception.buy.OutOfItemsException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DrinkSlotTest {
+    // fields
+    Slot<Drink, Integer> drinkSlot;
 
-    @Test
-    void setPriceToAPositiveNumber() {
-        // given I have a DrinkSlot instance
-        var drinkSlot = new DrinkSlot((short) 8, 50);
+    // methods
+    @BeforeEach
+    void init() {
+        drinkSlot = new DrinkSlot((short) 3 , 50);
+    }
 
-        // when I set the price to a positive integer using the setter method
-        drinkSlot.setPrice(100);
+    @Nested
+    class SetPriceTest {
+        @Test
+        void setPriceToAPositiveNumber() {
+            // given
+            int price = 200;
 
-        // then the price field should equal the set value
-        int expected = 100;
-        assertEquals(expected, drinkSlot.getPrice());
+            // when
+            drinkSlot.setPrice(price);
+
+            // then
+            int expected = 200;
+            assertEquals(expected, drinkSlot.getPrice());
+        }
+
+        @Test
+        void setPriceToZeroShouldReturnIllegalArgumentException() {
+            // given
+            int price = 0;
+
+            // when
+            Executable priceChange = () -> drinkSlot.setPrice(price);
+
+            // then
+            assertThrows(IllegalArgumentException.class, priceChange);
+        }
+
+        @Test
+        void setPriceToANegativeNumberShouldReturnIllegalArgumentException() {
+            // given
+            int price = -10;
+
+            // when
+            Executable priceChange = () -> drinkSlot.setPrice(price);
+
+            // then
+            assertThrows(IllegalArgumentException.class, priceChange);
+        }
+    }
+
+    @Nested
+    class GetItemTest {
+
+        @Test
+        void getDrinkWhenSlotHasSufficientDrinks() throws OutOfItemsException {
+            // given
+            Drink drink = new DrinkImpl("Orange juice", 300);
+            drinkSlot.fillSlot(drink);
+
+            // when
+            Drink returnedDrink = drinkSlot.getItem();
+
+            // then
+            int expectedDrinkCount = 2;
+            assertEquals(drink, returnedDrink);
+            assertEquals(expectedDrinkCount, drinkSlot.getNumberOfItems());
+        }
+
+        @Test
+        void getDrinkWhenNoDrinksInSlotShouldThrowOutOfItemException() {
+            // given
+            // when
+            Executable getOneDrink = () -> drinkSlot.getItem();
+
+            // then
+            assertThrows(OutOfItemsException.class, getOneDrink);
+        }
     }
 
     @Test
-    void setPriceToZeroShouldReturnIllegalArgumentException() {
-        // given I have a DrinkSlot instance
-        var drinkSlot = new DrinkSlot((short) 8, 50);
+    void fillSlotTest() {
+        // given
+        Drink drink = new DrinkImpl("Orange juice", 300);
 
-        // when I set the price to zero
-        // then an illegal argument exception should be thrown
-        assertThrowsExactly(IllegalArgumentException.class, () -> drinkSlot.setPrice(0));
-    }
+        // when
+        drinkSlot.fillSlot(drink);
 
-    @Test
-    void setPriceToANegativeNumberShouldReturnIllegalArgumentException() {
-        // given I have a DrinkSlot instance
-        var drinkSlot = new DrinkSlot((short) 8, 50);
-
-        // when I set the price to a negative value
-        // then an illegal argument exception should be thrown
-        assertThrowsExactly(IllegalArgumentException.class, () -> drinkSlot.setPrice(-5));
+        // then
+        int expected = 3;
+        assertEquals(expected, drinkSlot.getNumberOfItems());
     }
 }
