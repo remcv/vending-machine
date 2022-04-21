@@ -4,7 +4,6 @@ import remcv.com.github.vendingmachine.exception.ExceptionMessages;
 import remcv.com.github.vendingmachine.exception.FillItemsMismatchException;
 import remcv.com.github.vendingmachine.exception.buy.BuyException;
 import remcv.com.github.vendingmachine.exception.buy.InsufficientCreditException;
-import remcv.com.github.vendingmachine.exception.buy.InvalidSlotException;
 import remcv.com.github.vendingmachine.model.Coin;
 import remcv.com.github.vendingmachine.model.Drink;
 import remcv.com.github.vendingmachine.repository.ItemRepository;
@@ -15,10 +14,10 @@ import java.util.List;
 public class DrinkService implements ItemService<Drink> {
     // fields
     private final CreditService<Coin, Integer> coinCreditService;
-    private final ItemRepository<Drink> drinkRepository;
+    private final ItemRepository<Drink, Integer> drinkRepository;
 
     // constructor
-    public DrinkService(CreditService<Coin, Integer> coinCreditService, ItemRepository<Drink> drinkRepository) {
+    public DrinkService(CreditService<Coin, Integer> coinCreditService, ItemRepository<Drink, Integer> drinkRepository) {
         this.coinCreditService = coinCreditService;
         this.drinkRepository = drinkRepository;
     }

@@ -10,17 +10,19 @@ import remcv.com.github.vendingmachine.model.Slot;
 
 import java.util.*;
 
-public class DrinkRepository implements ItemRepository<Drink> {
+public class DrinkRepository implements ItemRepository<Drink, Integer> {
     // fields
-    private static final short NUMBER_OF_SLOTS = 50;
-    private static final short SLOT_CAPACITY = 8;
+    private final short numberOfSlots;
     private final Map<Integer, Slot<Drink, Integer>> drinkStorage;
 
     // constructor
-    public DrinkRepository() {
-        drinkStorage = new HashMap<>(NUMBER_OF_SLOTS);
-        for (int i = 1; i <= NUMBER_OF_SLOTS; ++i) {
-            drinkStorage.put(i, new DrinkSlot(SLOT_CAPACITY, generateDrinkPrice()));
+    public DrinkRepository(short numberOfSlots, short slotCapacity) {
+        // initialize member variables
+        this.numberOfSlots = numberOfSlots;
+
+        drinkStorage = new HashMap<>(numberOfSlots);
+        for (int i = 1; i <= numberOfSlots; ++i) {
+            drinkStorage.put(i, new DrinkSlot(slotCapacity, generateDrinkPrice()));
         }
     }
 
@@ -54,16 +56,21 @@ public class DrinkRepository implements ItemRepository<Drink> {
     }
 
     @Override
+    public Slot<Drink, Integer> getSlot(short slotNumber) throws InvalidSlotException {
+        if (slotNumber > getNumberOfSlots()) {
+            throw new InvalidSlotException(ExceptionMessages.INVALID_SLOT.getMessage());
+        }
+        return drinkStorage.get((int) slotNumber);
+    }
+
+    @Override
     public short getNumberOfSlots() {
-        return NUMBER_OF_SLOTS;
+        return numberOfSlots;
     }
 
     @Override
     public int getSlotPrice(short slotNumber) throws InvalidSlotException {
-        if (slotNumber > getNumberOfSlots()) {
-            throw new InvalidSlotException(ExceptionMessages.INVALID_SLOT.getMessage());
-        }
-        return drinkStorage.get((int) slotNumber).getPrice();
+        return getSlot(slotNumber).getPrice();
     }
 
     private int generateDrinkPrice() {

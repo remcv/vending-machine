@@ -3,19 +3,21 @@ package remcv.com.github.vendingmachine.repository;
 import remcv.com.github.vendingmachine.exception.FillItemsMismatchException;
 import remcv.com.github.vendingmachine.exception.buy.BuyException;
 import remcv.com.github.vendingmachine.exception.buy.InvalidSlotException;
+import remcv.com.github.vendingmachine.model.Slot;
 
 import java.util.Collection;
 import java.util.List;
 
 /**
- * An interface that defines repository behaviour for the generic {@code T}
- * object, representing the object modeling the item entity. It assumes
- * that the item instances are placed in different slots according to type and
- * price.
+ *  An interface that defines repository behaviour for the generic {@code T}
+ *  object, representing the object modeling the item entity. It assumes
+ *  that the item instances are placed in different slots according to type and
+ *  price.
  *
  * @param <T> the entity that models the sold item
+ * @param <U> the data type used for the item's price
  */
-public interface ItemRepository<T> {
+public interface ItemRepository<T, U> {
     /**
      * Removes one item from its slot and returns it.
      *
@@ -42,6 +44,14 @@ public interface ItemRepository<T> {
      * the number of slots
      */
     void fill(List<T> slotItems) throws FillItemsMismatchException;
+
+    /**
+     * Retrieves a slot using its id.
+     *
+     * @param slotNumber the id of the slot
+     * @return the slot with the input id
+     */
+    Slot<T, U> getSlot(short slotNumber) throws InvalidSlotException;
 
     /**
      * Return the number of slots.
