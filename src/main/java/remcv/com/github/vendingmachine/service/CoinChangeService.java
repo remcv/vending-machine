@@ -29,8 +29,8 @@ public class CoinChangeService implements MoneyChangeService<Coin> {
         // compute and withdraw corresponding coins
         List<Coin> coinsForChange = new ArrayList<>();
 
-        for (Coin c : Coin.values()) {
-            while (credit % c.getValue() > 0) {
+        for (Coin c : new Coin[] {Coin.TWO_EUROS, Coin.ONE_EURO, Coin.FIFTY_CENTS, Coin.TWENTY_CENTS, Coin.TEN_CENTS}) {
+            while (credit / c.getValue() > 0) {
                 try {
                     coinsForChange.add(coinRepository.withdrawOne(c));
                     credit -= c.getValue();
