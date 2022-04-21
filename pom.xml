@@ -22,29 +22,23 @@
         <!-- dependency versions -->
         <junit.version>5.8.2</junit.version>
         <mockito.version>1.10.19</mockito.version>
-        <cucumber.version>6.10.4</cucumber.version>
+        <cucumber.version>7.2.3</cucumber.version>
     </properties>
 
     <!-- dependencies -->
     <dependencies>
         <!-- Cucumber -->
         <dependency>
-          <groupId>io.cucumber</groupId>
-          <artifactId>cucumber-jvm</artifactId>
-          <version>${cucumber.version}</version>
-          <type>pom</type>
-          <scope>test</scope>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>io.cucumber</groupId>
-          <artifactId>cucumber-java</artifactId>
-          <version>${cucumber.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>io.cucumber</groupId>
-          <artifactId>cucumber-junit</artifactId>
-          <version>${cucumber.version}</version>
-          <scope>test</scope>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- JUnit -->
@@ -82,7 +76,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
+                    <version>3.0.0-M6</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>

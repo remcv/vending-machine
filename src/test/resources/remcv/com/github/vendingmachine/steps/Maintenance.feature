@@ -1,0 +1,1 @@
+Feature: Vending machine end-user scenarios for maintenance staff.
