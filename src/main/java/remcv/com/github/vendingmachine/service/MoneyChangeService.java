@@ -4,6 +4,11 @@ import remcv.com.github.vendingmachine.exception.ChangeException;
 
 import java.util.Collection;
 
+/**
+ * Defines behaviour required to return money change to customer.
+ *
+ * @param <T> the data type for money
+ */
 public interface MoneyChangeService<T> {
 
     /**
