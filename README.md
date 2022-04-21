@@ -1,5 +1,18 @@
 # vending-machine
 
+## How to run
+
+Requirements: JDK 11+, Maven (version 3.8.5 was used during development).
+Run the tests (unit tests - JUnit 5 and integration tests - Cucumber with JUnit 5) using the terminal and Maven:
+
+```bash
+$ cd {project folder}
+$ mvn test
+```
+
+The results will be printed in the console and also reports are generated in `target/cucumber-reports` 
+and `target/surefire-reports`.
+
 ## Task
 
 Develop the main business logic of a **vending machine for drinks** including functionality 
