@@ -23,7 +23,7 @@ class DrinkRepositoryTest {
     // methods
     @BeforeEach
     void init() {
-        drinkRepository = new DrinkRepository((short) 3, (short) 4);
+        drinkRepository = new DrinkRepository((short) 3, (short) 4, new Integer[] {50, 100, 130});
     }
 
     @Nested

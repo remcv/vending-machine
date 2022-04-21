@@ -16,13 +16,13 @@ public class DrinkRepository implements ItemRepository<Drink, Integer> {
     private final Map<Integer, Slot<Drink, Integer>> drinkStorage;
 
     // constructor
-    public DrinkRepository(short numberOfSlots, short slotCapacity) {
+    public DrinkRepository(short numberOfSlots, short slotCapacity, Integer[] prices) {
         // initialize member variables
         this.numberOfSlots = numberOfSlots;
 
         drinkStorage = new HashMap<>(numberOfSlots);
         for (int i = 1; i <= numberOfSlots; ++i) {
-            drinkStorage.put(i, new DrinkSlot(slotCapacity, generateDrinkPrice()));
+            drinkStorage.put(i, new DrinkSlot(slotCapacity, prices[i - 1]));
         }
     }
 
